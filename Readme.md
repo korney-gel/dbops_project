@@ -4,7 +4,7 @@
 ## Создаём нового пользователя (test_user) с паролем test_password
 CREATE ROLE test_user WITH LOGIN PASSWORD 'test_password';
 
-## Даем права на базу данных store
+## Даем пользователю права на базу данных store
 GRANT CONNECT ON DATABASE store TO test_user;
 
 ## Даем права на все существующие таблицы в store
