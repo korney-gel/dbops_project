@@ -24,13 +24,13 @@ jobs:
         tar -xzf flyway-commandline.tar.gz
         sudo ln -s `pwd`/flyway-11.1.0/flyway /usr/local/bin/flyway
 
-    # Исправляем ошибку "Migration checksum mismatch"**
-    - name: Flyway Repair
+    # 🔹 **Откат последней миграции**
+    - name: Flyway Undo Last Migration (V003)
       env:
         FLYWAY_URL: "jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
         FLYWAY_USER: ${{ secrets.DB_USER }}
         FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: flyway repair -schemas=public
+      run: flyway undo -target=002 -schemas=public
 
 
     # Выполняем миграции с помощью Flyway, используя URL подключения и учётные данные для базы данных
