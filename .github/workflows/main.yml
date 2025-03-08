@@ -30,7 +30,7 @@ jobs:
         FLYWAY_URL: "jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
         FLYWAY_USER: ${{ secrets.DB_USER }}
         FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: flyway migrate -schemas=public -locations=filesystem:migrations -outOfOrder=true
+      run: flyway migrate -schemas=public -locations=filesystem:migrations -ignoreMigrationPatterns='003:ignored'
 
       ### Этот шаг оставьте без изменений
     - name: Download and setup autotests binaries
