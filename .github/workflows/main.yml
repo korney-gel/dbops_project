@@ -24,13 +24,17 @@ jobs:
         tar -xzf flyway-commandline.tar.gz
         sudo ln -s `pwd`/flyway-11.1.0/flyway /usr/local/bin/flyway
 
-    # 🔹 **Откат последней миграции**
-    - name: Flyway Undo Last Migration (V003)
+    # Удаляем запись о миграции V003 из flyway_schema_history**
+    - name: Remove V003 from flyway_schema_history
       env:
-        FLYWAY_URL: "jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-        FLYWAY_USER: ${{ secrets.DB_USER }}
-        FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: flyway undo -target=002 -schemas=public
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+      run: |
+        PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "DELETE FROM flyway_schema_history WHERE version = '003';"
+
 
 
     # Выполняем миграции с помощью Flyway, используя URL подключения и учётные данные для базы данных
