@@ -23,6 +23,15 @@ jobs:
         curl -L -o flyway-commandline.tar.gz "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/11.1.0/flyway-commandline-11.1.0-linux-x64.tar.gz"
         tar -xzf flyway-commandline.tar.gz
         sudo ln -s `pwd`/flyway-11.1.0/flyway /usr/local/bin/flyway
+
+    # Исправляем ошибку "Migration checksum mismatch"**
+    - name: Flyway Repair
+      env:
+        FLYWAY_URL: "jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
+        FLYWAY_USER: ${{ secrets.DB_USER }}
+        FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: flyway repair -schemas=public
+
         
     # Выполняем миграции с помощью Flyway, используя URL подключения и учётные данные для базы данных
     - name: Run Flyway migrations
