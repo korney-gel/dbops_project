@@ -8,7 +8,6 @@ INSERT INTO product (id, name, picture_url, price) VALUES
     (6, 'Русская', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/1.jpg', 189.00)
 ON CONFLICT (id) DO NOTHING;
 
-
 -- Генерация заказов в orders
 INSERT INTO orders (id, status, date_created)
 SELECT i,
